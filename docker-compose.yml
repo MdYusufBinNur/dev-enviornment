@@ -1,0 +1,85 @@
+version: '3'
+
+volumes:
+  mysqldata_app:
+    driver: local
+  mongodb_app:
+    driver: local
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./../apps:/var/www/apps
+      - ./nginx/:/etc/nginx/conf.d/
+    ports:
+      - 80:80
+    command: /bin/bash -c "exec nginx -g 'daemon off;'"
+    environment:
+      NGINX_MAX_BODY_SIZE: 100M
+
+  php82:
+    build: ./php82
+    volumes:
+      - ./../apps:/var/www/apps
+    working_dir:
+      /var/www/apps
+
+  php8:
+    build: ./php8
+    volumes:
+      - ./../apps:/var/www/apps
+    working_dir:
+      /var/www/apps
+
+  php:
+     build: ./php
+     volumes:
+       - ./../apps:/var/www/apps
+     working_dir:
+       /var/www/apps
+
+  php7:
+    build: ./php7
+    volumes:
+      - ./../apps:/var/www/apps
+    working_dir:
+      /var/www/apps
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: s3cret
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysqldata_app:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  # db2:
+  #   image: mysql:5.7
+  #   environment:
+  #     MYSQL_USER: devuser
+  #     MYSQL_PASSWORD: s3cret
+  #     MYSQL_ROOT_PASSWORD: root
+  #   volumes:
+  #       - mysqldata_app:/var/lib/mysql
+  #   ports:
+  #     - "3307:3306"
+
+  redis:
+    image: redis:latest
+
+
+#  mongodb:
+#    image: mongo:latest
+#    container_name: my_mongodb
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - ./data:/data/db
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: mongo
+#      MONGO_INITDB_ROOT_PASSWORD: mongo
+    
