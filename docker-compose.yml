@@ -18,19 +18,19 @@ services:
     environment:
       NGINX_MAX_BODY_SIZE: 100M
 
-  php82:
-    build: ./php82
-    volumes:
-      - ./../apps:/var/www/apps
-    working_dir:
-      /var/www/apps
+#  php82:
+#    build: ./php82
+#    volumes:
+#      - ./../apps:/var/www/apps
+#    working_dir:
+#      /var/www/apps
 
-  php8:
-    build: ./php8
-    volumes:
-      - ./../apps:/var/www/apps
-    working_dir:
-      /var/www/apps
+#  php8:
+#    build: ./php8
+#    volumes:
+#      - ./../apps:/var/www/apps
+#    working_dir:
+#      /var/www/apps
 
   php:
      build: ./php
@@ -39,12 +39,12 @@ services:
      working_dir:
        /var/www/apps
 
-  php7:
-    build: ./php7
-    volumes:
-      - ./../apps:/var/www/apps
-    working_dir:
-      /var/www/apps
+#  php7:
+#    build: ./php7
+#    volumes:
+#      - ./../apps:/var/www/apps
+#    working_dir:
+#      /var/www/apps
 
   db:
     image: mysql:5.7
@@ -70,8 +70,8 @@ services:
 
   redis:
     image: redis:latest
-
-
+    ports:
+      - "6379:6379"
 #  mongodb:
 #    image: mongo:latest
 #    container_name: my_mongodb
@@ -82,4 +82,4 @@ services:
 #    environment:
 #      MONGO_INITDB_ROOT_USERNAME: mongo
 #      MONGO_INITDB_ROOT_PASSWORD: mongo
-    
+

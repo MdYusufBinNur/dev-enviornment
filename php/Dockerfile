@@ -13,7 +13,9 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    libevent-dev
+    libevent-dev \
+    libhiredis-dev \
+    && apt-get clean
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -21,15 +23,19 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install pcntl
 
+# Install Redis extension via PECL
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
 # Install Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && php -r "unlink('composer-setup.php');"
 
 # Set custom PHP configurations
-RUN echo "post_max_size = 20M" > /usr/local/etc/php/conf.d/custom.ini
+RUN echo "post_max_size = 50M" > /usr/local/etc/php/conf.d/custom.ini
 
 # Set the working directory
 WORKDIR /var/www/html
 
-CMD ["/usr/local/sbin/php-fpm"]
+CMD ["php-fpm"]
