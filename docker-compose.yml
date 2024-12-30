@@ -54,6 +54,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysqldata_app:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
       - "3306:3306"
 
