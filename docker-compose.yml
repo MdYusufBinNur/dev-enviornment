@@ -9,6 +9,7 @@ volumes:
 services:
   nginx:
     image: nginx:latest
+    platform: linux/amd64
     volumes:
       - ./../apps:/var/www/apps
       - ./nginx/:/etc/nginx/conf.d/
@@ -48,6 +49,7 @@ services:
 
   db:
     image: mysql:5.7
+    platform: linux/amd64
     environment:
       MYSQL_USER: devuser
       MYSQL_PASSWORD: s3cret
@@ -70,6 +72,7 @@ services:
 
   redis:
     image: redis:latest
+    platform: linux/amd64
     ports:
       - "6379:6379"
 #  mongodb:
