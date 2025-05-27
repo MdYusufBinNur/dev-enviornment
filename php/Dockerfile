@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Install required system packages
 RUN apt-get update && apt-get install -y \
@@ -33,7 +33,11 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "unlink('composer-setup.php');"
 
 # Set custom PHP configurations
-RUN echo "post_max_size = 50M" > /usr/local/etc/php/conf.d/custom.ini
+RUN echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/zz-custom.ini \
+    && echo "post_max_size = 100M" >> /usr/local/etc/php/conf.d/zz-custom.ini \
+    && echo "upload_max_filesize = 100M" >> /usr/local/etc/php/conf.d/zz-custom.ini \
+    && echo "max_execution_time = 300" >> /usr/local/etc/php/conf.d/zz-custom.ini
+
 
 # Set the working directory
 WORKDIR /var/www/html

@@ -48,7 +48,7 @@ services:
 #      /var/www/apps
 
   db:
-    image: mysql:5.7
+    image: mysql:8.0
     platform: linux/amd64
     environment:
       MYSQL_USER: devuser
@@ -59,6 +59,7 @@ services:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
       - "3306:3306"
+
 
   # db2:
   #   image: mysql:5.7
